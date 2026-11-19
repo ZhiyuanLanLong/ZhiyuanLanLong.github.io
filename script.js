@@ -25,49 +25,64 @@ const welcomeContainer = document.getElementById('welcome-container');
 const emailInput = document.getElementById('email');
 const passwordInput = document.getElementById('password');
 const confirmPasswordInput = document.getElementById('confirm-password');
-const welcomeMessageText = document.getElementById('welcome-message');
 
 const loginBtn = document.getElementById('login-btn');
 const signupBtn = document.getElementById('signup-btn');
 const logoutBtn = document.getElementById('logout-btn');
 const errorMsg = document.getElementById('error-msg');
 
+const loadingSpinner = document.getElementById('loading-spinner');
+const profileCard = document.getElementById('profile-card');
+const profileAvatar = document.getElementById('profile-avatar');
+const profileName = document.getElementById('profile-name');
+const profileRole = document.getElementById('profile-role');
+const profileBio = document.getElementById('profile-bio');
+
 
 onAuthStateChanged(auth, async (user) => {
     if (user) {
-        
+     
         loginContainer.classList.add('hidden');
         welcomeContainer.classList.remove('hidden');
         
-        
-        emailInput.value = ''; 
-        passwordInput.value = ''; 
-        confirmPasswordInput.value = '';
-        errorMsg.textContent = '';
+        emailInput.value = ''; passwordInput.value = ''; confirmPasswordInput.value = ''; errorMsg.textContent = '';
 
         try {
-           
-            const docRef = doc(db, "siteContent", "homePage");
+        
+            const docRef = doc(db, "siteContent", "profileCard");
             const docSnap = await getDoc(docRef);
 
-          
             if (docSnap.exists()) {
-                welcomeMessageText.textContent = docSnap.data().message;
+                const data = docSnap.data();
+                
+         
+                profileAvatar.src = data.avatar;
+                profileName.textContent = data.name;
+                profileRole.textContent = data.role;
+                profileBio.textContent = data.bio;
+              
+                loadingSpinner.classList.add('hidden');
+                profileCard.classList.remove('hidden');
             } else {
-                welcomeMessageText.textContent = "Data not found!";
+                loadingSpinner.textContent = "Profile data not found!";
             }
         } catch (error) {
-            welcomeMessageText.textContent = "Error loading data.";
-            console.error("Erro da base de dados:", error);
+            loadingSpinner.textContent = "Error loading secure data.";
+            console.error(error);
         }
 
     } else {
-     
+   
         welcomeContainer.classList.add('hidden');
         loginContainer.classList.remove('hidden');
-        welcomeMessageText.textContent = "Loading data...";
+        
+   
+        profileCard.classList.add('hidden');
+        loadingSpinner.classList.remove('hidden');
+        loadingSpinner.textContent = "Decrypting data...";
     }
 });
+
 
 
 loginBtn.addEventListener('click', () => {
