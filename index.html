@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>Secure Profile Card</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -16,12 +16,17 @@
         <button id="signup-btn">Sign Up</button>
         <p id="error-msg"></p>
     </div>
-
-    <div id="welcome-container" class="container hidden">
-        <h1 id="welcome-message">Loading data...</h1>
-        <button id="logout-btn">Log Out</button>
+    <div id="welcome-container" class="container hidden card-container">
+        <button id="logout-btn" class="logout-small">Log Out</button>
+        <p id="loading-spinner">Decrypting data...</p>
+        <div id="profile-card" class="hidden">
+            <img id="profile-avatar" src="" alt="Profile Picture">
+            <h2 id="profile-name"></h2>
+            <h4 id="profile-role"></h4>
+            <div class="divider"></div>
+            <p id="profile-bio"></p>
+        </div>
     </div>
-
     <script type="module" src="script.js"></script>
 </body>
 </html>
