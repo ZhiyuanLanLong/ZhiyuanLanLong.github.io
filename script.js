@@ -18,6 +18,7 @@ const loginContainer = document.getElementById('login-container');
 const welcomeContainer = document.getElementById('welcome-container');
 const emailInput = document.getElementById('email');
 const passwordInput = document.getElementById('password');
+const confirmPasswordInput = document.getElementById('confirm-password');
 const loginBtn = document.getElementById('login-btn');
 const signupBtn = document.getElementById('signup-btn');
 const logoutBtn = document.getElementById('logout-btn');
@@ -40,8 +41,19 @@ loginBtn.addEventListener('click', () => {
 });
 
 signupBtn.addEventListener('click', () => {
-    createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
-        .catch((error) => errorMsg.textContent = error.message);
+    const email = emailInput.value;
+    const password = passwordInput.value;
+    const confirmPassword = confirmPasswordInput.value;
+    
+    if (password !== confirmPassword) {
+        errorMsg.textContent = "As passwords não coincidem!";
+        return; 
+    }
+    
+    createUserWithEmailAndPassword(auth, email, password)
+        .catch((error) => {
+            errorMsg.textContent = error.message;
+        });
 });
 
 logoutBtn.addEventListener('click', () => {
